@@ -1,0 +1,14 @@
+[
+    {
+        "id": "1",
+        "name": "Eggs",
+        "price": "2.99",
+        "extension": "jpeg"
+    },
+    {
+        "id": "2",
+        "name": "Milk",
+        "price": "3.99",
+        "extension": "jpeg"
+    }
+]
