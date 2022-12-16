@@ -219,6 +219,30 @@ let init = async function () {
 
     // add onclick to 'max-out-btn'
     document.getElementById('max-out-btn').onclick = function () {
+        // sort items by price
+        var itemsSorted = itemsData.sort((a, b) => b.price - a.price);
+
+        // loop them all and add them to the cart
+        // until we can't add anymore
+        let leftBudget = getLeftBudget();
+        for (var i = 0; i < itemsSorted.length; i++) {
+            let item = itemsSorted[i];
+            let itemId = item.id;
+            let price = item.price;
+            let amount = purchasedItems[itemId] || 0;
+            let amountToAdd = price > leftBudget ? 0 :
+                Math.floor(leftBudget / price);
+            if (amountToAdd > 0) {
+                purchasedItems[itemId] = amount + amountToAdd;
+                leftBudget -= amountToAdd * price;
+            }
+
+            if (leftBudget <= 0) {
+                break;
+            }
+        }
+
+        rerenderBudgetAndItems();
     }
 
     const people = document.getElementsByClassName('person');
