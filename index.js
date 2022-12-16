@@ -33,8 +33,8 @@ let render = function () {
             // the worth is a complete number, it is more than 1 billion
             // we want to round it to 15500000000 => 15.5B
             var worthSt = person.worth.toString();
-            var worthStr = person.worth.toString().substring(0, worthSt.length - 9)
-                + '.' + worthSt.substring(worthSt.length - 9, worthSt.length - 8) + 'B$';
+            var worthStr = '$' + person.worth.toString().substring(0, worthSt.length - 9)
+                + '.' + worthSt.substring(worthSt.length - 9, worthSt.length - 8) + 'B';
             html += `
                 <div class="person card" id="${person.id}">
                     <img class="person-img" src="./data/imgs/ppl/${person.id}.webp" />
@@ -45,11 +45,7 @@ let render = function () {
                 </div>
             `;
         }
-
-
         ppllist.innerHTML = html;
-
-
     }
 
     let renderItems = function () {
@@ -59,8 +55,17 @@ let render = function () {
             html += `
                 <div class="item" id="${item.id}">
                     <img class="item-img" src="./data/imgs/items/${item.id}.${item.extension}" />
-                    <div class="item-name">${item.name}</div>
-                    <div class="item-price">${item.price}</div>
+                    <div class="item-body">
+                        <div class="name-n-price">
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-price">$${item.price}</div>
+                        </div>
+                        <div class="cart-amount">
+                            <div class="cart-btn">-</div>
+                            <div class="amount">0</div>
+                            <div class="cart-btn">+</div>
+                        </div>
+                    </div>
                 </div>
             `;
         }

@@ -33,3 +33,47 @@ body {
 .person-body-text {
   padding: 10px;
 }
+
+/* items list */
+#itemslist {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.item {
+  flex: 0 0 48%;
+  margin: 10px 0.5%;
+}
+
+.item-img {
+  width: 100%;
+  display: block;
+}
+
+.item-body {
+  padding: 10px;
+}
+
+/* name-n-price and cart-amount should be side by side. they're both inside item-body */
+.name-n-price {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.cart-amount {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-amount > * {
+  margin: 0 5px;
+}
+
+.item-body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
