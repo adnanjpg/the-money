@@ -1,4 +1,6 @@
 // init
+const million = 1000000;
+const billion = 1000000000;
 
 let readJsonFile = function (path) {
     var json = fetch(path)
@@ -47,13 +49,14 @@ let renderItems = function () {
     var html = '';
     for (var i = 0; i < itemsData.length; i++) {
         var item = itemsData[i];
+        var price = formatMoney(item.price);
         html += `
             <div class="item" id="${item.id}">
                 <img class="item-img" src="./data/imgs/items/${item.id}.${item.extension}" />
                 <div class="item-body">
                     <div class="name-n-price">
                         <div class="item-name">${item.name}</div>
-                        <div class="item-price">$${item.price}</div>
+                        <div class="item-price">${price}</div>
                     </div>
                     <div class="cart-amount">
                         <div class="cart-btn cart-btn-dec" item-id="${item.id}">-</div>
@@ -212,17 +215,23 @@ function getLeftBudget() {
 // utils
 
 function formatMoney(num) {
-    if (num < 1000000000) {
-        // show only 2 decimal places
-        return '$' + num.toFixed(2);
-    }
-    return formatMoreThanBillion(num);
-}
-// the worth is a complete number, it is more than 1 billion
-// we want to round it to 15500000000 => 15.5B
-function formatMoreThanBillion(num) {
+    // if num is not a number, then parse it to a number
+    num = +num;
     var numStr = num.toString();
-    var numStr = '$' + numStr.substring(0, numStr.length - 9)
-        + '.' + numStr.substring(numStr.length - 9, numStr.length - 8) + 'B';
-    return numStr;
+
+    if (num > billion) {
+        // we want to round it to 15500000000 => 15.5B
+        var ret = '$' + numStr.substring(0, numStr.length - 9)
+            + '.' + numStr.substring(numStr.length - 9, numStr.length - 8) + 'B';
+        return ret;
+    }
+    if (num > million) {
+        // we want to round it to 15500000 => 15.5M
+        var ret = '$' + numStr.substring(0, numStr.length - 6)
+            + '.' + numStr.substring(numStr.length - 6, numStr.length - 5) + 'M';
+        return ret;
+    }
+
+    // show only 2 decimal places
+    return '$' + num.toFixed(2);
 }
