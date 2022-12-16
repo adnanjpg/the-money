@@ -1,0 +1,32 @@
+[
+    {
+        "id": "1",
+        "name": "Bernard Arnault",
+        "worth": "173900000000"
+    },
+    {
+        "id": "2",
+        "name": "Elon Musk",
+        "worth": "168500000000"
+    },
+    {
+        "id": "3",
+        "name": "Bill Gates",
+        "worth": "115000000000"
+    },
+    {
+        "id": "4",
+        "name": "Jeff Bezos",
+        "worth": "114000000000"
+    },
+    {
+        "id": "5",
+        "name": "Warren Buffett",
+        "worth": "108000000000"
+    },
+    {
+        "id": "6",
+        "name": "Larry Ellison",
+        "worth": "93700000000"
+    }
+]

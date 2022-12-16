@@ -1,0 +1,11 @@
+body {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* people list */
+.person-img {
+    width: 192px;
+    height: 108px;
+    display: block;
+}
