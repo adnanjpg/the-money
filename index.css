@@ -83,7 +83,9 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
 
+#sticky-budget {
   position: sticky;
   top: 0;
   background: #fff;
@@ -103,4 +105,33 @@ body {
 .cart-btn-unpurchasable {
   cursor: default;
   color: #ccc;
+}
+
+.budget-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+.budget-btns > * {
+  margin: 0 5px;
+}
+
+.budget-btn {
+  /* Add some styling to the button */
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: blue;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 20px;
+  cursor: pointer;
+
+  /* Add a hover effect */
+  transition: background-color 0.2s;
+}
+
+.budget-btn:hover {
+  background-color: darkblue;
 }

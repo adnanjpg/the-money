@@ -115,10 +115,10 @@ let rerenderItemsAvailable = function () {
     var items = document.getElementsByClassName('item');
     for (var i = 0; i < items.length; i++) {
         var item = items[i];
+        var itemData = itemsData.find(x => x.id == item.id);
         var itemId = item.id;
-        var price = itemsData.find(x => x.id == itemId).price;
+        var price = itemData.price;
         let increaseBtn = document.querySelector(`[item-id="${itemId}"].cart-btn-inc`);
-        let decreaseBtn = document.querySelector(`[item-id="${itemId}"].cart-btn-dec`);
         if (price > leftBudget) {
             increaseBtn.classList.add('cart-btn-unpurchasable');
             // reset onclick
@@ -137,6 +137,10 @@ let rerenderItemsAvailable = function () {
                 rerenderBudgetAndItems();
             };
         }
+
+        var amount = purchasedItems[itemId] || 0;
+        var amountElement = document.querySelector(`[item-id="${itemId}"].cart-amount-text`);
+        amountElement.innerHTML = amount;
     }
 }
 
@@ -146,7 +150,6 @@ let rerenderItemsAvailable = function () {
 let realignBudget = function () {
     let totalBudget = getTotalBudget();
     let spentBudget = getSpentBudget();
-    debugger;
     if (totalBudget < spentBudget) {
         let overBudget = spentBudget - totalBudget;
 
@@ -176,7 +179,21 @@ let realignBudget = function () {
 
 }
 
+let rerenderSelectedPerson = function () {
+    const people = document.getElementsByClassName('person');
+
+    for (var j = 0; j < people.length; j++) {
+        if (people[j].id == selectedPID) {
+            people[j].classList.add('selected-person');
+        }
+        else {
+            people[j].classList.remove('selected-person');
+        }
+    }
+}
+
 let rerenderBudgetAndItems = function () {
+    rerenderSelectedPerson();
     renderBudget();
     rerenderItemsAvailable();
 }
@@ -187,26 +204,28 @@ let render = function () {
     renderBudget();
 }
 
-init = async function () {
+let init = async function () {
     await readPplData();
     await readItemsData();
 
     render();
+
+    // add onclick to 'clear-btn'
+    document.getElementById('clear-btn').onclick = function () {
+        purchasedItems = {};
+        selectedPID = null;
+        rerenderBudgetAndItems();
+    }
+
+    // add onclick to 'max-out-btn'
+    document.getElementById('max-out-btn').onclick = function () {
+    }
 
     const people = document.getElementsByClassName('person');
 
     for (var i = 0; i < people.length; i++) {
         people[i].onclick = function () {
             selectedPID = this.id;
-
-            for (var j = 0; j < people.length; j++) {
-                if (people[j].id == selectedPID) {
-                    people[j].classList.add('selected-person');
-                }
-                else {
-                    people[j].classList.remove('selected-person');
-                }
-            }
 
             realignBudget();
             rerenderBudgetAndItems();
@@ -230,7 +249,10 @@ init = async function () {
         };
     }
 }
-init();
+
+window.onload = function () {
+    init();
+}
 
 
 // business logic
