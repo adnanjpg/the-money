@@ -56,15 +56,18 @@ let renderItems = function () {
                         <div class="item-price">$${item.price}</div>
                     </div>
                     <div class="cart-amount">
-                        <div class="cart-btn">-</div>
-                        <div class="amount">0</div>
-                        <div class="cart-btn">+</div>
+                        <div class="cart-btn cart-btn-dec" item-id="${item.id}">-</div>
+                        <div class="amount cart-amount-text" item-id="${item.id}">0</div>
+                        <div class="cart-btn cart-btn-inc" item-id="${item.id}">+</div>
                     </div>
                 </div>
             </div>
         `;
     }
+
     itemslist.innerHTML = html;
+
+
 }
 
 let renderBudget = function () {
@@ -103,7 +106,6 @@ let renderBudget = function () {
     budget.innerHTML = html;
 }
 let render = function () {
-
     renderPpl();
     renderItems();
     renderBudget();
@@ -133,6 +135,37 @@ init = async function () {
             renderBudget();
         });
     };
+
+    const increaseBtns = document.getElementsByClassName('cart-btn-inc');
+    const decreaseBtns = document.getElementsByClassName('cart-btn-dec');
+
+    for (var i = 0; i < increaseBtns.length; i++) {
+        increaseBtns[i].addEventListener('click', function () {
+            var itemId = this.getAttribute('item-id');
+            var amount = purchasedItems[itemId] || 0;
+            amount += 1;
+            purchasedItems[itemId] = amount;
+
+            var amountElement = document.querySelector(`[item-id="${itemId}"].cart-amount-text`);
+            amountElement.innerHTML = amount;
+
+            renderBudget();
+        });
+
+        decreaseBtns[i].addEventListener('click', function () {
+            var itemId = this.getAttribute('item-id');
+            var amount = purchasedItems[itemId] || 0;
+            if (amount > 0) {
+                amount -= 1;
+                purchasedItems[itemId] = amount;
+            }
+
+            var amountElement = document.querySelector(`[item-id="${itemId}"].cart-amount-text`);
+            amountElement.innerHTML = amount;
+
+            renderBudget();
+        });
+    }
 }
 init();
 
@@ -141,7 +174,7 @@ init();
 let selectedPID;
 // key: item id
 // value: amount of the item in the cart
-let purchasedItems = {};
+let purchasedItems = new Map();
 
 function getPerson(id) {
     for (var i = 0; i < pplData.length; i++) {
@@ -165,7 +198,7 @@ function getTotalBudget() {
 function getSpentBudget() {
     var spent = 0;
     for (var key in purchasedItems) {
-        var item = getItem(key);
+        var item = itemsData.find(item => item.id == key);
         var amount = purchasedItems[key];
         spent += item.price * amount;
     }
@@ -180,7 +213,8 @@ function getLeftBudget() {
 
 function formatMoney(num) {
     if (num < 1000000000) {
-        return '$' + num.toString();
+        // show only 2 decimal places
+        return '$' + num.toFixed(2);
     }
     return formatMoreThanBillion(num);
 }

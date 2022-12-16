@@ -88,3 +88,8 @@ body {
 .budget-col {
   flex: 0 0 30%;
 }
+
+.cart-btn {
+  user-select: none;
+  cursor: pointer;
+}
