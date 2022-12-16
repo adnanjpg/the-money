@@ -1,11 +1,35 @@
 body {
-    max-width: 600px;
-    margin: 0 auto;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* people list */
+#ppllist {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.person {
+  flex: 0 0 48%;
+  margin: 10px 0.5%;
+}
+
+.selected-person {
+  border: 1px solid rgb(113, 19, 19);
+}
+
 .person-img {
-    width: 192px;
-    height: 108px;
-    display: block;
+  width: 100%;
+  display: block;
+}
+
+.person-body-text {
+  padding: 10px;
 }

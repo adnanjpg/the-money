@@ -12,6 +12,7 @@ let readJsonFile = function (path) {
 
 
 let pplData;
+let selectedPID;
 let readPplData = async function () {
     var json = await readJsonFile('./data/ppl.json');
     pplData = json;
@@ -29,15 +30,26 @@ let render = function () {
         var html = '';
         for (var i = 0; i < pplData.length; i++) {
             var person = pplData[i];
+            // the worth is a complete number, it is more than 1 billion
+            // we want to round it to 15500000000 => 15.5B
+            var worthSt = person.worth.toString();
+            var worthStr = person.worth.toString().substring(0, worthSt.length - 9)
+                + '.' + worthSt.substring(worthSt.length - 9, worthSt.length - 8) + 'B$';
             html += `
-                <div class="person" id="${person.id}">
+                <div class="person card" id="${person.id}">
                     <img class="person-img" src="./data/imgs/ppl/${person.id}.webp" />
-                    <div class="person-name">${person.name}</div>
-                    <div class="person-worth">${person.worth}</div>
+                    <div class="person-body-text">
+                        <div class="person-name">${person.name}</div>
+                        <div class="person-worth">${worthStr}</div>
+                    </div>
                 </div>
             `;
         }
+
+
         ppllist.innerHTML = html;
+
+
     }
 
     let renderItems = function () {
@@ -64,6 +76,23 @@ init = async function () {
     await readItemsData();
 
     render();
-}
 
+    const people = document.getElementsByClassName('person');
+
+    for (var i = 0; i < people.length; i++) {
+        people[i].addEventListener('click', function () {
+            selectedPID = this.id;
+
+            for (var j = 0; j < people.length; j++) {
+                if (people[j].id == selectedPID) {
+                    people[j].classList.add('selected-person');
+                }
+                else {
+                    people[j].classList.remove('selected-person');
+                }
+            }
+        });
+    };
+}
 init();
+
