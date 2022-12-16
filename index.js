@@ -69,8 +69,6 @@ let renderItems = function () {
     }
 
     itemslist.innerHTML = html;
-
-
 }
 
 let renderBudget = function () {
@@ -142,6 +140,42 @@ let rerenderItemsAvailable = function () {
     }
 }
 
+// here we're gonna do a check to see if the new budget is smaller
+// than the already purchased items if so, we're gonna remove the 
+// items that are over the budget
+let realignBudget = function () {
+    let totalBudget = getTotalBudget();
+    let spentBudget = getSpentBudget();
+    debugger;
+    if (totalBudget < spentBudget) {
+        let overBudget = spentBudget - totalBudget;
+
+        var itemsSorted = itemsData.sort((a, b) => b.price - a.price);
+        for (var i = 0; i < itemsSorted.length; i++) {
+            // loop all stock, and remove until overBudget is 0
+            let item = itemsSorted[i];
+            let itemId = item.id;
+            let price = item.price;
+            let amount = purchasedItems[itemId] || 0;
+            let amountToRemove = price > overBudget ? 1 :
+                Math.floor(overBudget / price);
+            if (amountToRemove > 0) {
+                purchasedItems[itemId] = amount - amountToRemove;
+                overBudget -= amountToRemove * price;
+
+                // update the UI
+                let amountElement = document.querySelector(`[item-id="${itemId}"].cart-amount-text`);
+                amountElement.innerHTML = purchasedItems[itemId];
+            }
+
+            if (overBudget <= 0) {
+                break;
+            }
+        }
+    }
+
+}
+
 let rerenderBudgetAndItems = function () {
     renderBudget();
     rerenderItemsAvailable();
@@ -174,6 +208,7 @@ init = async function () {
                 }
             }
 
+            realignBudget();
             rerenderBudgetAndItems();
         };
     };
