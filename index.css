@@ -99,3 +99,8 @@ body {
   user-select: none;
   cursor: pointer;
 }
+
+.cart-btn-unpurchasable {
+  cursor: default;
+  color: #ccc;
+}

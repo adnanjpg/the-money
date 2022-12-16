@@ -86,7 +86,7 @@ let renderBudget = function () {
     var spentBudgetStr = formatMoney(spentBudget);
     var leftBudgetStr = formatMoney(leftBudget);
 
-    var colMap = {
+    var budgetColMap = {
         'total': { title: 'Total', amount: totalBudgetStr, },
         'spent': { title: 'Spent', amount: spentBudgetStr, },
         'left': { title: 'Left', amount: leftBudgetStr, }
@@ -94,8 +94,8 @@ let renderBudget = function () {
 
     var html = '';
 
-    for (var key in colMap) {
-        var v = colMap[key];
+    for (var key in budgetColMap) {
+        var v = budgetColMap[key];
         var title = v.title;
         var amount = v.amount;
         html += `
@@ -107,7 +107,46 @@ let renderBudget = function () {
     }
 
     budget.innerHTML = html;
+
+    rerenderItemsAvailable();
 }
+
+let rerenderItemsAvailable = function () {
+    let leftBudget = getLeftBudget();
+    // wanna loop all items and check if they are purchasable
+    var items = document.getElementsByClassName('item');
+    for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        var itemId = item.id;
+        var price = itemsData.find(x => x.id == itemId).price;
+        let increaseBtn = document.querySelector(`[item-id="${itemId}"].cart-btn-inc`);
+        let decreaseBtn = document.querySelector(`[item-id="${itemId}"].cart-btn-dec`);
+        if (price > leftBudget) {
+            increaseBtn.classList.add('cart-btn-unpurchasable');
+            // reset onclick
+            increaseBtn.onclick = function () { };
+        } else {
+            increaseBtn.classList.remove('cart-btn-unpurchasable');
+            increaseBtn.onclick = function () {
+                var itemId = this.getAttribute('item-id');
+                var amount = purchasedItems[itemId] || 0;
+                amount += 1;
+                purchasedItems[itemId] = amount;
+
+                var amountElement = document.querySelector(`[item-id="${itemId}"].cart-amount-text`);
+                amountElement.innerHTML = amount;
+
+                rerenderBudgetAndItems();
+            };
+        }
+    }
+}
+
+let rerenderBudgetAndItems = function () {
+    renderBudget();
+    rerenderItemsAvailable();
+}
+
 let render = function () {
     renderPpl();
     renderItems();
@@ -123,7 +162,7 @@ init = async function () {
     const people = document.getElementsByClassName('person');
 
     for (var i = 0; i < people.length; i++) {
-        people[i].addEventListener('click', function () {
+        people[i].onclick = function () {
             selectedPID = this.id;
 
             for (var j = 0; j < people.length; j++) {
@@ -135,27 +174,13 @@ init = async function () {
                 }
             }
 
-            renderBudget();
-        });
+            rerenderBudgetAndItems();
+        };
     };
 
-    const increaseBtns = document.getElementsByClassName('cart-btn-inc');
     const decreaseBtns = document.getElementsByClassName('cart-btn-dec');
-
-    for (var i = 0; i < increaseBtns.length; i++) {
-        increaseBtns[i].addEventListener('click', function () {
-            var itemId = this.getAttribute('item-id');
-            var amount = purchasedItems[itemId] || 0;
-            amount += 1;
-            purchasedItems[itemId] = amount;
-
-            var amountElement = document.querySelector(`[item-id="${itemId}"].cart-amount-text`);
-            amountElement.innerHTML = amount;
-
-            renderBudget();
-        });
-
-        decreaseBtns[i].addEventListener('click', function () {
+    for (var i = 0; i < decreaseBtns.length; i++) {
+        decreaseBtns[i].onclick = function () {
             var itemId = this.getAttribute('item-id');
             var amount = purchasedItems[itemId] || 0;
             if (amount > 0) {
@@ -166,8 +191,8 @@ init = async function () {
             var amountElement = document.querySelector(`[item-id="${itemId}"].cart-amount-text`);
             amountElement.innerHTML = amount;
 
-            renderBudget();
-        });
+            rerenderBudgetAndItems();
+        };
     }
 }
 init();
