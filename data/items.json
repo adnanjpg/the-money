@@ -1,14 +1,104 @@
 [
     {
-        "id": "1",
+        "id": 1,
         "name": "Eggs",
         "price": "2.99",
         "extension": "jpeg"
     },
     {
-        "id": "2",
+        "id": 2,
         "name": "Milk",
         "price": "3.99",
         "extension": "jpeg"
+    },
+    {
+        "id": 3,
+        "name": "Apple",
+        "price": "1.99",
+        "extension": "webp"
+    },
+    {
+        "id": 4,
+        "name": "Bag of Chips",
+        "price": "3.49",
+        "extension": "jpeg"
+    },
+    {
+        "id": 5,
+        "name": "Bottle of Water",
+        "price": "1.29",
+        "extension": "jpeg"
+    },
+    {
+        "id": 6,
+        "name": "Loaf of Bread",
+        "price": "2.79",
+        "extension": "jpeg"
+    },
+    {
+        "id": 7,
+        "name": "Dozen Eggs",
+        "price": "3.99",
+        "extension": "jpeg"
+    },
+    {
+        "id": 8,
+        "name": "Garden Hose",
+        "price": "19.99",
+        "extension": "jpg"
+    },
+    {
+        "id": 9,
+        "name": "Outdoor Grill",
+        "price": "349.99",
+        "extension": "jpeg"
+    },
+    {
+        "id": 10,
+        "name": "Television",
+        "price": "799.99",
+        "extension": "jpeg"
+    },
+    {
+        "id": 11,
+        "name": "McLaren",
+        "price": "1700000",
+        "extension": "webp"
+    },
+    {
+        "id": 12,
+        "name": "Private Jet",
+        "price": "9999999.99",
+        "extension": "jpeg"
+    },
+    {
+        "id": 13,
+        "name": "Island",
+        "price": "999999999.99",
+        "extension": "jpeg"
+    },
+    {
+        "id": 14,
+        "name": "Netflix, THE ENTIRETY OF IT",
+        "price": "1300000000",
+        "extension": "webp"
+    },
+    {
+        "id": 15,
+        "name": "Netflix for a month",
+        "price": "9.99",
+        "extension": "png"
+    },
+    {
+        "id": 16,
+        "name": "iPhone 14 Pro Max 1TB",
+        "price": "1999.99",
+        "extension": "webp"
+    },
+    {
+        "id": 17,
+        "name": "MBP 16\" M1 Max",
+        "price": "3499.99",
+        "extension": "webp"
     }
 ]
