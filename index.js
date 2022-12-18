@@ -60,7 +60,7 @@ let renderItems = function () {
                     </div>
                     <div class="cart-amount">
                         <div class="cart-btn cart-btn-dec" item-id="${item.id}">-</div>
-                        <div class="amount cart-amount-text" item-id="${item.id}">0</div>
+                        <input class="amount-input" item-id="${item.id}" type="number" value="0" />
                         <div class="cart-btn cart-btn-inc" item-id="${item.id}">+</div>
                     </div>
                 </div>
@@ -123,6 +123,10 @@ let rerenderItemsAvailable = function () {
             increaseBtn.classList.add('cart-btn-unpurchasable');
             // reset onclick
             increaseBtn.onclick = function () { };
+
+            // we want to disable the amount input
+            var amountElement = document.querySelector(`[item-id="${itemId}"].amount-input`);
+            amountElement.disabled = true;
         } else {
             increaseBtn.classList.remove('cart-btn-unpurchasable');
             increaseBtn.onclick = function () {
@@ -131,16 +135,40 @@ let rerenderItemsAvailable = function () {
                 amount += 1;
                 purchasedItems[itemId] = amount;
 
-                var amountElement = document.querySelector(`[item-id="${itemId}"].cart-amount-text`);
-                amountElement.innerHTML = amount;
+                var amountElement = document.querySelector(`[item-id="${itemId}"].amount-input`);
+                amountElement.value = amount;
 
                 rerenderBudgetAndItems();
             };
+
+            // we want to enable the amount input
+            var amountElement = document.querySelector(`[item-id="${itemId}"].amount-input`);
+            amountElement.disabled = false;
+
+            // when input changes, we want to update the purchasedItems
+            amountElement.onchange = function () {
+                var itemId = this.getAttribute('item-id');
+                var amount = parseInt(this.value);
+
+                // first, we want to check if the amount does not exceed the left budget
+                // if so, we want to set the amount to match the left budget
+                let leftBudget = getLeftBudget();
+                let itemData = itemsData.find(x => x.id == itemId);
+                let itemPrice = itemData.price;
+                let maxAmount = Math.floor(leftBudget / itemPrice);
+                if (amount > maxAmount) {
+                    amount = maxAmount;
+                }
+
+                purchasedItems[itemId] = amount;
+
+                rerenderBudgetAndItems();
+            }
         }
 
         var amount = purchasedItems[itemId] || 0;
-        var amountElement = document.querySelector(`[item-id="${itemId}"].cart-amount-text`);
-        amountElement.innerHTML = amount;
+        var amountElement = document.querySelector(`[item-id="${itemId}"].amount-input`);
+        amountElement.value = amount;
     }
 }
 
@@ -167,8 +195,8 @@ let realignBudget = function () {
                 overBudget -= amountToRemove * price;
 
                 // update the UI
-                let amountElement = document.querySelector(`[item-id="${itemId}"].cart-amount-text`);
-                amountElement.innerHTML = purchasedItems[itemId];
+                let amountElement = document.querySelector(`[item-id="${itemId}"].amount-input`);
+                amountElement.value = purchasedItems[itemId];
             }
 
             if (overBudget <= 0) {
@@ -266,7 +294,7 @@ let init = async function () {
                 purchasedItems[itemId] = amount;
             }
 
-            var amountElement = document.querySelector(`[item-id="${itemId}"].cart-amount-text`);
+            var amountElement = document.querySelector(`[item-id="${itemId}"].amount-input`);
             amountElement.innerHTML = amount;
 
             rerenderBudgetAndItems();
