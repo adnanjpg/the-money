@@ -1,0 +1,21 @@
+{
+    "name": "The money spender",
+    "short_name": "Money spender",
+    "start_url": "/the-money",
+    "scope": "/the-money/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "icons": [
+        {
+            "src": "./assets/logo/logo192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "./assets/logo/logo512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
