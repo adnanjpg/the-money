@@ -1,8 +1,7 @@
 {
     "name": "The money spender",
     "short_name": "Money spender",
-    "start_url": "/the-money",
-    "scope": "/the-money/",
+    "start_url": "/the-money/index.html",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#ffffff",
