@@ -68,13 +68,13 @@
     {
         "id": 12,
         "name": "Private Jet",
-        "price": 9999999.99,
+        "price": 9999999.00,
         "extension": "jpeg"
     },
     {
         "id": 13,
         "name": "Island",
-        "price": 999999999.99,
+        "price": 999999999.00,
         "extension": "jpeg"
     },
     {
@@ -86,19 +86,19 @@
     {
         "id": 15,
         "name": "Netflix for a month",
-        "price": 9.99,
+        "price": 9.00,
         "extension": "png"
     },
     {
         "id": 16,
         "name": "iPhone 14 Pro Max 1TB",
-        "price": 1999.99,
+        "price": 1999.00,
         "extension": "webp"
     },
     {
         "id": 17,
         "name": "MBP 16\" M1 Max",
-        "price": 3499.99,
+        "price": 3499.00,
         "extension": "webp"
     }
 ]
